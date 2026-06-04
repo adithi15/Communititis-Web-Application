@@ -1,0 +1,6 @@
+{
+  "name": "SKYLRK Storefront",
+  "description": "A highly aesthetic, minimalist, interactive clothing and accessories web store simulator with smooth visual animations, fully functional shopping cart, size descriptors, responsive grid, dynamic background controls, and policy views.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
