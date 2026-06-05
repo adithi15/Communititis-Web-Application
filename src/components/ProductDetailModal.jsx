@@ -234,7 +234,7 @@ export default function ProductDetailModal({
                 {isAdding ? (
                   <div className="w-5 h-5 rounded-full border-2 border-slate-950 border-t-transparent animate-spin" />
                 ) : success ? (
-                  <><Check size={16} /> Added to Cart</>
+                  <><Check size={16} /> Add to Cart</>
                 ) : (
                   <><ShoppingBag size={16} /> Add to Cart</>
                 )}

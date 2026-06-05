@@ -19,7 +19,7 @@ export default function ProductPage({
 
   // Find variants — same title, different subtitle/color
   const variants = PRODUCTS.filter(
-    (p) => p.title === product.title && p.id !== product.id
+    (p) => p.title === product.title && p.id !== product.id,
   );
 
   useEffect(() => {
@@ -68,21 +68,28 @@ export default function ProductPage({
       {/* Noise texture overlay */}
       <div
         style={{
-          position: "absolute", inset: 0, pointerEvents: "none",
-          opacity: 0.18, mixBlendMode: "overlay",
+          position: "absolute",
+          inset: 0,
+          pointerEvents: "none",
+          opacity: 0.18,
+          mixBlendMode: "overlay",
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
         }}
       />
 
       {/* ── LEFT HALF: Image area ── */}
-      <div style={{
-        position: "absolute",
-        left: 0, top: 0,
-        width: "58%", height: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}>
+      <div
+        style={{
+          position: "absolute",
+          left: 0,
+          top: 0,
+          width: "58%",
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <AnimatePresence mode="wait">
           <motion.img
             key={activeIndex}
@@ -122,11 +129,13 @@ export default function ProductPage({
                 key={i}
                 onClick={() => setActiveIndex(i)}
                 style={{
-                  width: 60, height: 60,
+                  width: 60,
+                  height: 60,
                   borderRadius: 12,
-                  border: activeIndex === i
-                    ? "2px solid rgba(0,0,0,0.7)"
-                    : "2px solid rgba(255,255,255,0.35)",
+                  border:
+                    activeIndex === i
+                      ? "2px solid rgba(0,0,0,0.7)"
+                      : "2px solid rgba(255,255,255,0.35)",
                   background: "rgba(255,255,255,0.3)",
                   backdropFilter: "blur(10px)",
                   padding: 4,
@@ -138,8 +147,13 @@ export default function ProductPage({
                 }}
               >
                 <img
-                  src={src} alt={`view ${i + 1}`}
-                  style={{ width: "100%", height: "100%", objectFit: "contain" }}
+                  src={src}
+                  alt={`view ${i + 1}`}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                  }}
                 />
               </button>
             ))}
@@ -148,20 +162,29 @@ export default function ProductPage({
       </div>
 
       {/* ── RIGHT HALF: Details panel ── */}
-      <div style={{
-        position: "absolute",
-        right: 0, top: 0,
-        width: "42%", height: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "100px 40px 40px 20px",
-        boxSizing: "border-box",
-      }}>
+      <div
+        style={{
+          position: "absolute",
+          right: 0,
+          top: 0,
+          width: "42%",
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "100px 40px 40px 20px",
+          boxSizing: "border-box",
+        }}
+      >
         <motion.div
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.15, type: "spring", stiffness: 260, damping: 28 }}
+          transition={{
+            delay: 0.15,
+            type: "spring",
+            stiffness: 260,
+            damping: 28,
+          }}
           style={{
             width: "100%",
             maxWidth: 380,
@@ -175,91 +198,139 @@ export default function ProductPage({
           }}
         >
           {/* Panel content (scrollable if needed) */}
-          <div style={{ padding: "28px 28px 0 28px", maxHeight: "70vh", overflowY: "auto" }}>
-
+          <div
+            style={{
+              padding: "28px 28px 0 28px",
+              maxHeight: "70vh",
+              overflowY: "auto",
+            }}
+          >
             {/* Category tag */}
-            <span style={{
-              fontFamily: "monospace", fontSize: 9, fontWeight: 700,
-              letterSpacing: "0.18em", textTransform: "uppercase",
-              background: "rgba(0,0,0,0.1)",
-              border: "1px solid rgba(0,0,0,0.12)",
-              borderRadius: 999, padding: "3px 10px",
-              color: "rgba(0,0,0,0.55)",
-              display: "inline-block", marginBottom: 12,
-            }}>
+            <span
+              style={{
+                fontFamily: "monospace",
+                fontSize: 9,
+                fontWeight: 700,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                background: "rgba(0,0,0,0.1)",
+                border: "1px solid rgba(0,0,0,0.12)",
+                borderRadius: 999,
+                padding: "3px 10px",
+                color: "rgba(0,0,0,0.55)",
+                display: "inline-block",
+                marginBottom: 12,
+              }}
+            >
               {product.category}
             </span>
 
             {/* Title */}
-            <h1 style={{
-              fontFamily: "'Space Grotesk', sans-serif",
-              fontSize: 30, fontWeight: 900,
-              letterSpacing: "-0.02em",
-              color: "rgba(0,0,0,0.88)",
-              margin: "0 0 6px 0", lineHeight: 1.05,
-              textTransform: "uppercase",
-            }}>
+            <h1
+              style={{
+                fontFamily: "'Space Grotesk', sans-serif",
+                fontSize: 30,
+                fontWeight: 900,
+                letterSpacing: "-0.02em",
+                color: "rgba(0,0,0,0.88)",
+                margin: "0 0 6px 0",
+                lineHeight: 1.05,
+                textTransform: "uppercase",
+              }}
+            >
               {product.title}
             </h1>
 
             {/* Subtitle */}
-            <p style={{
-              fontFamily: "monospace", fontSize: 10, fontWeight: 600,
-              letterSpacing: "0.12em", textTransform: "uppercase",
-              color: "rgba(0,0,0,0.45)", marginBottom: 14,
-            }}>
+            <p
+              style={{
+                fontFamily: "monospace",
+                fontSize: 10,
+                fontWeight: 600,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color: "rgba(0,0,0,0.45)",
+                marginBottom: 14,
+              }}
+            >
               {product.subtitle}
             </p>
 
             {/* Price */}
-            <p style={{
-              fontFamily: "monospace", fontSize: 22, fontWeight: 800,
-              color: "rgba(0,0,0,0.82)", marginBottom: 14,
-              letterSpacing: "-0.01em",
-            }}>
-              {currency.symbol}{convertedPrice.toLocaleString()}
+            <p
+              style={{
+                fontFamily: "monospace",
+                fontSize: 22,
+                fontWeight: 800,
+                color: "rgba(0,0,0,0.82)",
+                marginBottom: 14,
+                letterSpacing: "-0.01em",
+              }}
+            >
+              {currency.symbol}
+              {convertedPrice.toLocaleString()}
             </p>
 
             {/* Description */}
-            <p style={{
-              fontSize: 12, color: "rgba(0,0,0,0.55)",
-              lineHeight: 1.65, marginBottom: 20,
-              fontFamily: "sans-serif",
-              borderTop: "1px solid rgba(0,0,0,0.08)",
-              paddingTop: 14,
-            }}>
+            <p
+              style={{
+                fontSize: 12,
+                color: "rgba(0,0,0,0.55)",
+                lineHeight: 1.65,
+                marginBottom: 20,
+                fontFamily: "sans-serif",
+                borderTop: "1px solid rgba(0,0,0,0.08)",
+                paddingTop: 14,
+              }}
+            >
               {product.description}
             </p>
 
             {/* Color variants */}
             {variants.length > 0 && (
               <div style={{ marginBottom: 20 }}>
-                <p style={{
-                  fontFamily: "monospace", fontSize: 9, fontWeight: 700,
-                  letterSpacing: "0.15em", textTransform: "uppercase",
-                  color: "rgba(0,0,0,0.45)", marginBottom: 8,
-                }}>
+                <p
+                  style={{
+                    fontFamily: "monospace",
+                    fontSize: 9,
+                    fontWeight: 700,
+                    letterSpacing: "0.15em",
+                    textTransform: "uppercase",
+                    color: "rgba(0,0,0,0.45)",
+                    marginBottom: 8,
+                  }}
+                >
                   COLOR &nbsp;[ {product.subtitle} ]
                 </p>
                 <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                  <div style={{
-                    width: 28, height: 28, borderRadius: "50%",
-                    background: product.hex,
-                    border: "2.5px solid rgba(0,0,0,0.55)",
-                  }} />
+                  <div
+                    style={{
+                      width: 28,
+                      height: 28,
+                      borderRadius: "50%",
+                      background: product.hex,
+                      border: "2.5px solid rgba(0,0,0,0.55)",
+                    }}
+                  />
                   {variants.map((v) => (
                     <button
                       key={v.id}
                       title={v.subtitle}
                       style={{
-                        width: 28, height: 28, borderRadius: "50%",
+                        width: 28,
+                        height: 28,
+                        borderRadius: "50%",
                         background: v.hex,
                         border: "2px solid rgba(255,255,255,0.5)",
                         cursor: "pointer",
                         transition: "transform 0.15s",
                       }}
-                      onMouseEnter={e => e.currentTarget.style.transform = "scale(1.18)"}
-                      onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
+                      onMouseEnter={(e) =>
+                        (e.currentTarget.style.transform = "scale(1.18)")
+                      }
+                      onMouseLeave={(e) =>
+                        (e.currentTarget.style.transform = "scale(1)")
+                      }
                     />
                   ))}
                 </div>
@@ -269,11 +340,17 @@ export default function ProductPage({
             {/* Size selector */}
             {sizes.length > 0 && sizes[0] !== "ONE SIZE" && (
               <div style={{ marginBottom: 20 }}>
-                <p style={{
-                  fontFamily: "monospace", fontSize: 9, fontWeight: 700,
-                  letterSpacing: "0.15em", textTransform: "uppercase",
-                  color: "rgba(0,0,0,0.45)", marginBottom: 8,
-                }}>
+                <p
+                  style={{
+                    fontFamily: "monospace",
+                    fontSize: 9,
+                    fontWeight: 700,
+                    letterSpacing: "0.15em",
+                    textTransform: "uppercase",
+                    color: "rgba(0,0,0,0.45)",
+                    marginBottom: 8,
+                  }}
+                >
                   SIZE
                 </p>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
@@ -282,16 +359,23 @@ export default function ProductPage({
                       key={s}
                       onClick={() => setSelectedSize(s)}
                       style={{
-                        padding: "6px 14px", borderRadius: 999,
-                        fontFamily: "monospace", fontSize: 10, fontWeight: 700,
-                        letterSpacing: "0.1em", textTransform: "uppercase",
-                        cursor: "pointer", transition: "all 0.15s ease",
-                        border: selectedSize === s
-                          ? "2px solid rgba(0,0,0,0.75)"
-                          : "2px solid rgba(0,0,0,0.15)",
-                        background: selectedSize === s
-                          ? "rgba(0,0,0,0.8)"
-                          : "rgba(255,255,255,0.4)",
+                        padding: "6px 14px",
+                        borderRadius: 999,
+                        fontFamily: "monospace",
+                        fontSize: 10,
+                        fontWeight: 700,
+                        letterSpacing: "0.1em",
+                        textTransform: "uppercase",
+                        cursor: "pointer",
+                        transition: "all 0.15s ease",
+                        border:
+                          selectedSize === s
+                            ? "2px solid rgba(0,0,0,0.75)"
+                            : "2px solid rgba(0,0,0,0.15)",
+                        background:
+                          selectedSize === s
+                            ? "rgba(0,0,0,0.8)"
+                            : "rgba(255,255,255,0.4)",
                         color: selectedSize === s ? "white" : "rgba(0,0,0,0.6)",
                       }}
                     >
@@ -305,42 +389,70 @@ export default function ProductPage({
             {/* Quantity */}
             {!product.soldOut && (
               <div style={{ marginBottom: 20 }}>
-                <p style={{
-                  fontFamily: "monospace", fontSize: 9, fontWeight: 700,
-                  letterSpacing: "0.15em", textTransform: "uppercase",
-                  color: "rgba(0,0,0,0.45)", marginBottom: 8,
-                }}>
+                <p
+                  style={{
+                    fontFamily: "monospace",
+                    fontSize: 9,
+                    fontWeight: 700,
+                    letterSpacing: "0.15em",
+                    textTransform: "uppercase",
+                    color: "rgba(0,0,0,0.45)",
+                    marginBottom: 8,
+                  }}
+                >
                   QUANTITY
                 </p>
-                <div style={{
-                  display: "inline-flex", alignItems: "center", gap: 0,
-                  border: "1.5px solid rgba(0,0,0,0.15)", borderRadius: 999,
-                  background: "rgba(255,255,255,0.4)", overflow: "hidden",
-                }}>
+                <div
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 0,
+                    border: "1.5px solid rgba(0,0,0,0.15)",
+                    borderRadius: 999,
+                    background: "rgba(255,255,255,0.4)",
+                    overflow: "hidden",
+                  }}
+                >
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
                     style={{
-                      width: 36, height: 36, display: "flex",
-                      alignItems: "center", justifyContent: "center",
-                      background: "transparent", border: "none",
-                      cursor: "pointer", color: "rgba(0,0,0,0.6)",
+                      width: 36,
+                      height: 36,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      background: "transparent",
+                      border: "none",
+                      cursor: "pointer",
+                      color: "rgba(0,0,0,0.6)",
                     }}
                   >
                     <Minus size={12} />
                   </button>
-                  <span style={{
-                    fontFamily: "monospace", fontSize: 13, fontWeight: 800,
-                    color: "rgba(0,0,0,0.8)", minWidth: 28, textAlign: "center",
-                  }}>
+                  <span
+                    style={{
+                      fontFamily: "monospace",
+                      fontSize: 13,
+                      fontWeight: 800,
+                      color: "rgba(0,0,0,0.8)",
+                      minWidth: 28,
+                      textAlign: "center",
+                    }}
+                  >
                     {quantity}
                   </span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
                     style={{
-                      width: 36, height: 36, display: "flex",
-                      alignItems: "center", justifyContent: "center",
-                      background: "transparent", border: "none",
-                      cursor: "pointer", color: "rgba(0,0,0,0.6)",
+                      width: 36,
+                      height: 36,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      background: "transparent",
+                      border: "none",
+                      cursor: "pointer",
+                      color: "rgba(0,0,0,0.6)",
                     }}
                   >
                     <Plus size={12} />
@@ -351,14 +463,20 @@ export default function ProductPage({
 
             {/* Ships in tag */}
             <div style={{ marginBottom: 4 }}>
-              <span style={{
-                fontFamily: "monospace", fontSize: 9, fontWeight: 700,
-                letterSpacing: "0.14em", textTransform: "uppercase",
-                background: "rgba(0,0,0,0.07)",
-                border: "1px solid rgba(0,0,0,0.1)",
-                borderRadius: 999, padding: "4px 12px",
-                color: "rgba(0,0,0,0.45)",
-              }}>
+              <span
+                style={{
+                  fontFamily: "monospace",
+                  fontSize: 9,
+                  fontWeight: 700,
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  background: "rgba(0,0,0,0.07)",
+                  border: "1px solid rgba(0,0,0,0.1)",
+                  borderRadius: 999,
+                  padding: "4px 12px",
+                  color: "rgba(0,0,0,0.45)",
+                }}
+              >
                 SHIPS IN 2–3 WEEKS
               </span>
             </div>
@@ -379,7 +497,8 @@ export default function ProductPage({
               border: "none",
               borderTop: "1px solid rgba(255,255,255,0.5)",
               cursor: product.soldOut ? "not-allowed" : "pointer",
-              display: "flex", alignItems: "center",
+              display: "flex",
+              alignItems: "center",
               justifyContent: "space-between",
               padding: "0 28px",
               transition: "background 0.3s",
@@ -388,25 +507,36 @@ export default function ProductPage({
           >
             <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
               {success ? <Check size={15} /> : <ShoppingBag size={15} />}
-              <span style={{
-                fontFamily: "monospace", fontSize: 11,
-                fontWeight: 800, letterSpacing: "0.16em",
-                textTransform: "uppercase",
-              }}>
-                {product.soldOut ? "SOLD OUT" : success ? "ADDED!" : "ADD TO CART"}
+              <span
+                style={{
+                  fontFamily: "monospace",
+                  fontSize: 11,
+                  fontWeight: 800,
+                  letterSpacing: "0.16em",
+                  textTransform: "uppercase",
+                }}
+              >
+                {product.soldOut
+                  ? "SOLD OUT"
+                  : success
+                    ? "ADDING...."
+                    : "ADD TO CART"}
               </span>
             </div>
-            <span style={{
-              fontFamily: "monospace", fontSize: 14,
-              fontWeight: 800, letterSpacing: "-0.01em",
-            }}>
-              {currency.symbol}{convertedPrice.toLocaleString()}
+            <span
+              style={{
+                fontFamily: "monospace",
+                fontSize: 14,
+                fontWeight: 800,
+                letterSpacing: "-0.01em",
+              }}
+            >
+              {currency.symbol}
+              {convertedPrice.toLocaleString()}
             </span>
           </motion.button>
         </motion.div>
       </div>
-
-
     </motion.div>
   );
 }

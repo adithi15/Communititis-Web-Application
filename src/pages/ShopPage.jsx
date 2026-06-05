@@ -95,7 +95,7 @@ export default function ShopPage({
                 position: "absolute",
                 left,
                 top: `${top}px`,
-                width: "300px",
+                width: "250px",
                 zIndex: hoveredProductId === p.id ? 10 : 1,
               }}
               initial={{ rotate: rot }}
@@ -123,8 +123,8 @@ export default function ShopPage({
             >
               <motion.div
                 style={{
-                  width: "300px",
-                  height: "300px",
+                  width: "350px",
+                  height: "350px",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -216,11 +216,19 @@ export default function ShopPage({
                 }}
               >
                 <img
-                  src={p.image}
-                  alt={p.title}
-                  className="max-h-full max-w-full object-contain"
-                  draggable={false}
-                />
+  src={p.image}
+  alt={p.title}
+  style={{
+    maxHeight: "100%",
+    maxWidth: "100%",
+    objectFit: "contain",
+    filter: `
+      drop-shadow(0 0 20px rgba(255,255,255,.12))
+      drop-shadow(0 0 40px rgba(255,255,255,.08))
+      drop-shadow(0 10px 30px rgba(0,0,0,.12))
+    `,
+  }}
+/>
               </motion.div>
               {/* Subtle sold-out badge with actual text */}
               {p.soldOut && (
