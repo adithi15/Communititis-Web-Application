@@ -1,25 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { PRODUCTS, CURRENCIES } from './data';
-import Header from './components/Header';
-import ProductDetailModal from './components/ProductDetailModal';
-import CartDrawer from './components/CartDrawer';
+import React, { useState, useEffect } from "react";
+import { PRODUCTS, CURRENCIES } from "./data";
+import Header from "./components/Header";
+import ProductDetailModal from "./components/ProductDetailModal";
+import ProductPage from "./pages/ProductPage";
+import CartDrawer from "./components/CartDrawer";
 
 // Import newly refactored standalone page views
-import ShopPage from './pages/ShopPage';
-import ContactPage from './pages/ContactPage';
-import PoliciesPage from './pages/PoliciesPage';
-import WallpapersPage from './pages/WallpapersPage';
-import InstagramPage from './pages/InstagramPage';
-import CheckoutPage from './pages/CheckoutPage';
+import ShopPage from "./pages/ShopPage";
+import ContactPage from "./pages/ContactPage";
+import PoliciesPage from "./pages/PoliciesPage";
+import WallpapersPage from "./pages/WallpapersPage";
+import InstagramPage from "./pages/InstagramPage";
+import CheckoutPage from "./pages/CheckoutPage";
 
-import { 
-  Sparkles, Check, Instagram, BellPlus, X
-} from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { Sparkles, Check, Instagram, BellPlus, X } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 
 export default function App() {
   // Navigation Active tab: 'shop' | 'contact' | 'policies' | 'wallpapers' | 'instagram' | 'checkout'
-  const [currentTab, setCurrentTab] = useState('shop');
+  const [currentTab, setCurrentTab] = useState("shop");
 
   // Cart Management
   const [cartItems, setCartItems] = useState([]);
@@ -29,32 +28,32 @@ export default function App() {
   const [currency, setCurrency] = useState(CURRENCIES.INR);
 
   // Background Mood state (dynamic gradient shifts on product hover)
-  const [moodColor, setMoodColor] = useState('#9dd5f1');
-  const [moodColor2, setMoodColor2] = useState('#8fd5ff');
+  const [moodColor, setMoodColor] = useState("#9dd5f1");
+  const [moodColor2, setMoodColor2] = useState("#8fd5ff");
 
   // Interactive Product detail Modal focus
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   // Sold-out restock notification state
   const [restockProduct, setRestockProduct] = useState(null);
-  const [restockEmail, setRestockEmail] = useState('');
+  const [restockEmail, setRestockEmail] = useState("");
   const [restockSuccess, setRestockSuccess] = useState(false);
 
   // Newsletter Signups
-  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterSuccess, setNewsletterSuccess] = useState(false);
 
   // Active policy tab state (kept global to sync from footer actions)
-  const [activePolicyTab, setActivePolicyTab] = useState('faq');
+  const [activePolicyTab, setActivePolicyTab] = useState("faq");
 
   // Load cart state from local storage on startup
   useEffect(() => {
-    const saved = localStorage.getItem('skylrk_cart');
+    const saved = localStorage.getItem("skylrk_cart");
     if (saved) {
       try {
         setCartItems(JSON.parse(saved));
       } catch (err) {
-        console.error('Failed to parse cart local storage text', err);
+        console.error("Failed to parse cart local storage text", err);
       }
     }
   }, []);
@@ -62,12 +61,12 @@ export default function App() {
   // Save cart back to local storage whenever they change an item
   const saveCartToStorage = (updatedList) => {
     setCartItems(updatedList);
-    localStorage.setItem('skylrk_cart', JSON.stringify(updatedList));
+    localStorage.setItem("skylrk_cart", JSON.stringify(updatedList));
   };
 
   const handleAddToCart = (product, size, quantity) => {
     const key = `${product.id}-${size}`;
-    const existingIndex = cartItems.findIndex(item => item.key === key);
+    const existingIndex = cartItems.findIndex((item) => item.key === key);
 
     if (existingIndex > -1) {
       const updated = [...cartItems];
@@ -89,14 +88,14 @@ export default function App() {
       handleRemoveItem(key);
       return;
     }
-    const updated = cartItems.map(item => 
-      item.key === key ? { ...item, quantity: qty } : item
+    const updated = cartItems.map((item) =>
+      item.key === key ? { ...item, quantity: qty } : item,
     );
     saveCartToStorage(updated);
   };
 
   const handleRemoveItem = (key) => {
-    const filtered = cartItems.filter(item => item.key !== key);
+    const filtered = cartItems.filter((item) => item.key !== key);
     saveCartToStorage(filtered);
   };
 
@@ -108,12 +107,12 @@ export default function App() {
   const onTileHover = (colorHex) => {
     setMoodColor(colorHex);
     // Darken/shift secondary coordinate for rich dynamic mood radial contrast
-    setMoodColor2(colorHex === '#353433' ? '#151515' : `${colorHex}c5`);
+    setMoodColor2(colorHex === "#353433" ? "#151515" : `${colorHex}c5`);
   };
 
   const onTileLeave = () => {
-    setMoodColor('#9dd5f1');
-    setMoodColor2('#8fd5ff');
+    setMoodColor("#9dd5f1");
+    setMoodColor2("#8fd5ff");
   };
 
   // Restock Notification submission
@@ -124,7 +123,7 @@ export default function App() {
     setTimeout(() => {
       setRestockSuccess(false);
       setRestockProduct(null);
-      setRestockEmail('');
+      setRestockEmail("");
     }, 3000);
   };
 
@@ -135,31 +134,32 @@ export default function App() {
     setNewsletterSuccess(true);
     setTimeout(() => {
       setNewsletterSuccess(false);
-      setNewsletterEmail('');
+      setNewsletterEmail("");
     }, 3000);
   };
 
   // Function to navigate to policies tab with specific sub-section
   const navigateToPolicyTab = (subTab) => {
-    setCurrentTab('policies');
+    setCurrentTab("policies");
     setActivePolicyTab(subTab);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
     <div className="relative min-h-screen text-slate-800 transition-colors duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] overflow-x-hidden font-sans">
       {/* Dynamic Animated background mesh */}
-      <div 
-        className="fixed inset-0 -z-10 transition-all duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)]"
+      <div
+        className={`fixed inset-0 -z-10 ${currentTab === "checkout" ? "" : "transition-all duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)]"}`}
         style={{
-          background: currentTab === 'checkout'
-            ? 'radial-gradient(ellipse at 50% 30%, #1c1c1e, #0a0a0b)'
-            : `radial-gradient(ellipse at 50% 30%, ${moodColor}, ${moodColor2})`,
+          background:
+            currentTab === "checkout"
+              ? "#0a0a0b"
+              : `radial-gradient(ellipse at 50% 30%, ${moodColor}, ${moodColor2})`,
         }}
       />
 
       {/* Procedural Film Grain/Noise overlay */}
-      <div 
+      <div
         className="fixed inset-0 -z-10 pointer-events-none opacity-[0.25] mix-blend-overlay"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
@@ -169,26 +169,30 @@ export default function App() {
       {/* Grid overlay for texture */}
       <div className="fixed inset-0 -z-10 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none opacity-20" />
 
-      {/* Floating Header */}
-      <Header
-        currentTab={currentTab}
-        setCurrentTab={(tab) => {
-          setCurrentTab(tab);
-          // Auto scroll to view top
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
-        currency={currency}
-        setCurrency={setCurrency}
-        currencies={CURRENCIES}
-        cartCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)}
-        toggleCart={() => setCartOpen(!cartOpen)}
-      />
+      {/* Floating Header — hidden when cart is open */}
+      {!cartOpen && (
+        <Header
+          currentTab={currentTab}
+          setCurrentTab={(tab) => {
+            setCurrentTab(tab);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+          currency={currency}
+          setCurrency={setCurrency}
+          currencies={CURRENCIES}
+          cartCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)}
+          toggleCart={() => setCartOpen(!cartOpen)}
+          onLogoClick={() => {
+            setSelectedProduct(null);
+            setCurrentTab("shop");
+          }}
+        />
+      )}
 
       {/* Main Container workspace spacing top header */}
       <main className="pt-28 md:pt-40 pb-24 px-4 md:px-16 max-w-[1600px] mx-auto">
         <AnimatePresence mode="wait">
-          
-          {currentTab === 'shop' && (
+          {currentTab === "shop" && (
             <ShopPage
               handleAddToCart={handleAddToCart}
               setCartOpen={setCartOpen}
@@ -199,42 +203,35 @@ export default function App() {
             />
           )}
 
-          {currentTab === 'contact' && (
-            <ContactPage />
-          )}
+          {currentTab === "contact" && <ContactPage />}
 
-          {currentTab === 'policies' && (
+          {currentTab === "policies" && (
             <PoliciesPage
               activePolicyTab={activePolicyTab}
               setActivePolicyTab={setActivePolicyTab}
             />
           )}
 
-          {currentTab === 'wallpapers' && (
-            <WallpapersPage />
-          )}
+          {currentTab === "wallpapers" && <WallpapersPage />}
 
-          {currentTab === 'instagram' && (
-            <InstagramPage />
-          )}
+          {currentTab === "instagram" && <InstagramPage />}
 
-          {currentTab === 'checkout' && (
+          {currentTab === "checkout" && (
             <CheckoutPage
               cartItems={cartItems}
               currency={currency}
-              onBackToShop={() => setCurrentTab('shop')}
+              onBackToShop={() => setCurrentTab("shop")}
               clearCart={clearCart}
             />
           )}
-
         </AnimatePresence>
       </main>
 
       {/* FOOTER BAR: Newsletter signup overlay and terms */}
       {/* <footer className="w-full bg-slate-950 text-slate-100 py-16 px-4 md:px-8 border-t border-white/10 relative z-30">
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-12"> */}
-          {/* Brand info column */}
-          {/* <div className="space-y-4">
+      {/* Brand info column */}
+      {/* <div className="space-y-4">
             <h3 className="font-display font-bold text-lg tracking-wider text-white">SKYLRK CORP</h3>
             <p className="text-slate-400 text-xs leading-relaxed max-w-sm font-sans">
               High-end apparel cores, technical drop accessories, and ergonomic recovery footbeds designed with minimalist silhouettes. All custom garments washed, assembled, and finished on organic looms.
@@ -248,8 +245,8 @@ export default function App() {
             </button>
           </div> */}
 
-          {/* Bottom active newsletter intake forms */}
-          {/* <div>
+      {/* Bottom active newsletter intake forms */}
+      {/* <div>
             <h3 className="font-display font-medium text-xs tracking-widest text-slate-300 uppercase mb-4">
               JOIN THE INNER CIRCLE
             </h3>
@@ -280,8 +277,8 @@ export default function App() {
             )}
           </div> */}
 
-          {/* Quick policy navigational nodes */}
-          {/* <div className="space-y-4 text-left md:text-right">
+      {/* Quick policy navigational nodes */}
+      {/* <div className="space-y-4 text-left md:text-right">
             <h3 className="font-display font-medium text-xs tracking-widest text-slate-300 uppercase">
               DECREED POLICIES
             </h3>
@@ -320,11 +317,19 @@ export default function App() {
 
               <div className="flex items-center gap-3 border-b border-white/10 pb-4 mb-4">
                 <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center border border-white/5">
-                  <img src={restockProduct.image} alt="" className="w-10 h-10 object-contain" />
+                  <img
+                    src={restockProduct.image}
+                    alt=""
+                    className="w-10 h-10 object-contain"
+                  />
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-sm text-white uppercase truncate">{restockProduct.title}</h3>
-                  <p className="font-mono text-[9px] text-slate-400 uppercase truncate">{restockProduct.subtitle}</p>
+                  <h3 className="font-display font-bold text-sm text-white uppercase truncate">
+                    {restockProduct.title}
+                  </h3>
+                  <p className="font-mono text-[9px] text-slate-400 uppercase truncate">
+                    {restockProduct.subtitle}
+                  </p>
                 </div>
               </div>
 
@@ -333,9 +338,12 @@ export default function App() {
                   <div className="w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500 flex items-center justify-center mx-auto mb-3 text-emerald-400">
                     <Check size={18} />
                   </div>
-                  <h4 className="font-mono text-xs tracking-widest text-[#D1F362] uppercase">REGISTERED SUCCESSFULLY</h4>
+                  <h4 className="font-mono text-xs tracking-widest text-[#D1F362] uppercase">
+                    REGISTERED SUCCESSFULLY
+                  </h4>
                   <p className="text-[11px] text-slate-400 leading-relaxed mt-2 font-sans">
-                    You will receive a high priority alert code to your inbox the moment this inventory size is restocked on our looms.
+                    You will receive a high priority alert code to your inbox
+                    the moment this inventory size is restocked on our looms.
                   </p>
                 </div>
               ) : (
@@ -346,7 +354,9 @@ export default function App() {
                       RESTOCK ALERTS INTENT
                     </h4>
                     <p className="text-xs text-slate-400 leading-normal mb-4 font-sans">
-                      This clothing core has completed its production line and is temporarily sold out. Submit your email to secure early queue priority on the restock drop.
+                      This clothing core has completed its production line and
+                      is temporarily sold out. Submit your email to secure early
+                      queue priority on the restock drop.
                     </p>
                   </div>
 
@@ -377,17 +387,16 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* POPUP DETAIL: Focus details Modal */}
+      {/* PRODUCT DETAIL: Full screen product page */}
       <AnimatePresence>
         {selectedProduct && (
-          <ProductDetailModal
+          <ProductPage
             product={selectedProduct}
             currency={currency}
-            onClose={() => setSelectedProduct(null)}
+            onBack={() => setSelectedProduct(null)}
             onAddToCart={(prod, sz, qty) => {
               handleAddToCart(prod, sz, qty);
-              setSelectedProduct(null);
-              setCartOpen(true); // Auto reveal the drawer on add for immediate feedback!
+              setCartOpen(true);
             }}
           />
         )}
@@ -404,7 +413,8 @@ export default function App() {
         onClear={clearCart}
         onCheckoutClick={() => {
           setCartOpen(false);
-          setCurrentTab('checkout');
+          setSelectedProduct(null); // ← add this line
+          setCurrentTab("checkout");
         }}
       />
     </div>

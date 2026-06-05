@@ -26,7 +26,7 @@ export default function CartDrawer({
             animate={{ opacity: 0.5 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-slate-950/40 backdrop-blur-sm z-50 pointer-events-auto"
+            className="fixed inset-0 bg-slate-950/40 backdrop-blur-sm z-[300] pointer-events-auto"
           />
 
           <motion.aside
@@ -34,7 +34,7 @@ export default function CartDrawer({
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
             transition={{ type: 'tween', duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed left-0 top-0 h-full w-full max-w-[380px] md:max-w-[420px] bg-slate-950/20 backdrop-blur-xl shadow-2xl z-50 flex flex-col justify-between border-r border-white/10 pointer-events-auto"
+            className="fixed left-0 top-0 h-full w-full max-w-[380px] md:max-w-[420px] bg-slate-950/20 backdrop-blur-xl shadow-2xl z-[301] flex flex-col justify-between border-r border-white/10 pointer-events-auto"
             role="dialog"
             aria-label="Shopping drawer"
           >

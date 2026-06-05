@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { X, Plus, Minus, ShoppingBag, Check } from 'lucide-react';
-import { motion } from 'motion/react';
+import { X, Plus, Minus, ShoppingBag, Check, ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 
 export default function ProductDetailModal({
   product,
@@ -14,7 +14,16 @@ export default function ProductDetailModal({
   const [isAdding, setIsAdding] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  // Conversion of price
+  // Support both single `image` and multiple `images`
+  const imageList = product.images?.length
+    ? product.images
+    : [product.image];
+
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const goNext = () => setActiveIndex((i) => (i + 1) % imageList.length);
+  const goPrev = () => setActiveIndex((i) => (i - 1 + imageList.length) % imageList.length);
+
   const convertedPrice = Math.round(product.price * currency.rate);
 
   const handleAdd = () => {
@@ -23,9 +32,7 @@ export default function ProductDetailModal({
       onAddToCart(product, selectedSize, quantity);
       setIsAdding(false);
       setSuccess(true);
-      setTimeout(() => {
-        setSuccess(false);
-      }, 1500);
+      setTimeout(() => setSuccess(false), 1500);
     }, 600);
   };
 
@@ -47,29 +54,96 @@ export default function ProductDetailModal({
           <X size={20} />
         </button>
 
-        {/* Product Visual Container */}
-        <div className="relative flex items-center justify-center bg-transparent rounded-2xl overflow-hidden aspect-square border-none group">
-          {product.soldOut && (
-            <div className="absolute top-4 left-4 font-mono text-xs tracking-widest bg-rose-600 text-white px-3 py-1.5 rounded-full uppercase z-10">
-              Sold Out
+        {/* ── Product Visual + Gallery ── */}
+        <div className="flex gap-3">
+
+          {/* Thumbnail strip — only shown when there are multiple images */}
+          {imageList.length > 1 && (
+            <div className="flex flex-col gap-2 overflow-y-auto max-h-[420px] pr-1 scrollbar-thin scrollbar-thumb-white/10">
+              {imageList.map((src, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setActiveIndex(idx)}
+                  className={`relative w-16 h-16 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all duration-200 ${
+                    activeIndex === idx
+                      ? 'border-[#D1F362] opacity-100 scale-105'
+                      : 'border-white/10 opacity-50 hover:opacity-80'
+                  }`}
+                >
+                  <img
+                    src={src}
+                    alt={`${product.title} view ${idx + 1}`}
+                    className="w-full h-full object-contain bg-white/5"
+                  />
+                </button>
+              ))}
             </div>
           )}
-          <motion.img
-            src={product.image}
-            alt={product.title}
-            className="w-full max-w-[360px] h-auto object-contain select-none group-hover:scale-105 duration-700 ease-out"
-            layoutId={`product-image-${product.id}`}
-          />
-          {/* Subtle background glow mapping product theme colors */}
-          <div
-            className="absolute -inset-10 opacity-10 blur-3xl pointer-events-none"
-            style={{
-              background: `radial-gradient(circle, ${product.hex} 0%, transparent 70%)`
-            }}
-          />
+
+          {/* Main image area */}
+          <div className="relative flex-1 flex items-center justify-center bg-transparent rounded-2xl overflow-hidden aspect-square group">
+            {product.soldOut && (
+              <div className="absolute top-4 left-4 font-mono text-xs tracking-widest bg-rose-600 text-white px-3 py-1.5 rounded-full uppercase z-10">
+                Sold Out
+              </div>
+            )}
+
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={activeIndex}
+                src={imageList[activeIndex]}
+                alt={product.title}
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.02 }}
+                transition={{ duration: 0.25 }}
+                className="w-full max-w-[360px] h-auto object-contain select-none"
+                layoutId={activeIndex === 0 ? `product-image-${product.id}` : undefined}
+              />
+            </AnimatePresence>
+
+            {/* Prev / Next arrows — only when multiple images */}
+            {imageList.length > 1 && (
+              <>
+                <button
+                  onClick={goPrev}
+                  className="absolute left-2 p-1.5 rounded-full bg-black/40 hover:bg-black/60 text-white opacity-0 group-hover:opacity-100 transition-all"
+                  aria-label="Previous image"
+                >
+                  <ChevronLeft size={16} />
+                </button>
+                <button
+                  onClick={goNext}
+                  className="absolute right-2 p-1.5 rounded-full bg-black/40 hover:bg-black/60 text-white opacity-0 group-hover:opacity-100 transition-all"
+                  aria-label="Next image"
+                >
+                  <ChevronRight size={16} />
+                </button>
+
+                {/* Dot indicators */}
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+                  {imageList.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveIndex(idx)}
+                      className={`w-1.5 h-1.5 rounded-full transition-all ${
+                        activeIndex === idx ? 'bg-[#D1F362] w-3' : 'bg-white/30'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+
+            {/* Background glow */}
+            <div
+              className="absolute -inset-10 opacity-10 blur-3xl pointer-events-none"
+              style={{ background: `radial-gradient(circle, ${product.hex} 0%, transparent 70%)` }}
+            />
+          </div>
         </div>
 
-        {/* Product Details Section */}
+        {/* ── Product Details ── */}
         <div className="flex flex-col justify-between">
           <div>
             <span className="font-mono text-xs tracking-widest text-[#D1F362] uppercase bg-[#D1F362]/10 px-3 py-1 rounded-full inline-block mb-3">
@@ -90,16 +164,12 @@ export default function ProductDetailModal({
               {product.description}
             </p>
 
-            {/* Sizes selector */}
+            {/* Size selector */}
             <div className="mt-6">
               <div className="flex justify-between items-center mb-2.5">
-                <span className="text-xs font-mono tracking-widest text-slate-400 uppercase">
-                  Select Size
-                </span>
+                <span className="text-xs font-mono tracking-widest text-slate-400 uppercase">Select Size</span>
                 {product.category === 'Footwear' && (
-                  <span className="text-[10px] font-mono tracking-widest text-slate-500 uppercase">
-                    US Men's Sizing
-                  </span>
+                  <span className="text-[10px] font-mono tracking-widest text-slate-500 uppercase">US Men's Sizing</span>
                 )}
               </div>
               <div className="flex flex-wrap gap-2">
@@ -122,27 +192,23 @@ export default function ProductDetailModal({
               </div>
             </div>
 
-            {/* Quantity select counter */}
+            {/* Quantity */}
             {!product.soldOut && (
               <div className="mt-6">
-                <span className="text-xs font-mono tracking-widest text-slate-400 uppercase block mb-2.5">
-                  Quantity
-                </span>
+                <span className="text-xs font-mono tracking-widest text-slate-400 uppercase block mb-2.5">Quantity</span>
                 <div className="inline-flex items-center rounded-xl border border-white/10 bg-white/5 p-1 h-[44px]">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
                     className="p-1 px-3 hover:text-white text-slate-400 hover:bg-white/10 rounded-lg transition-all"
-                    aria-label="Decrement quantity"
+                    aria-label="Decrement"
                   >
                     <Minus size={14} />
                   </button>
-                  <span className="font-mono text-sm px-4 min-w-[2.5rem] text-center text-white">
-                    {quantity}
-                  </span>
+                  <span className="font-mono text-sm px-4 min-w-[2.5rem] text-center text-white">{quantity}</span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
                     className="p-1 px-3 hover:text-white text-slate-400 hover:bg-white/10 rounded-lg transition-all"
-                    aria-label="Increment quantity"
+                    aria-label="Increment"
                   >
                     <Plus size={14} />
                   </button>
@@ -169,24 +235,17 @@ export default function ProductDetailModal({
                 {isAdding ? (
                   <div className="w-5 h-5 rounded-full border-2 border-slate-950 border-t-transparent animate-spin" />
                 ) : success ? (
-                  <>
-                    <Check size={16} />
-                    Added to Drawer
-                  </>
+                  <><Check size={16} /> Added to Cart</>
                 ) : (
-                  <>
-                    <ShoppingBag size={16} />
-                    Add to Drawer
-                  </>
+                  <><ShoppingBag size={16} /> Add to Cart</>
                 )}
               </button>
             )}
-
             <button
               onClick={onClose}
               className="w-full py-3 text-xs font-mono tracking-widest uppercase text-slate-400 hover:text-white transition-colors"
             >
-              Continue Browsing
+              Continue Shopping
             </button>
           </div>
         </div>

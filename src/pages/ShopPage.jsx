@@ -36,9 +36,18 @@ const buildOffsets = (count) => {
 };
 
 const ROTATIONS = [
-  "-2.5deg", "1.8deg", "-1.5deg", "2.8deg",
-  "1.5deg",  "-3deg",  "2.2deg",  "-1.6deg",
-  "3deg",    "-2deg",  "1.4deg",  "-2.8deg",
+  "-2.5deg",
+  "1.8deg",
+  "-1.5deg",
+  "2.8deg",
+  "1.5deg",
+  "-3deg",
+  "2.2deg",
+  "-1.6deg",
+  "3deg",
+  "-2deg",
+  "1.4deg",
+  "-2.8deg",
 ];
 
 export default function ShopPage({
@@ -55,7 +64,8 @@ export default function ShopPage({
 
   const filteredProducts = PRODUCTS;
   const offsets = buildOffsets(filteredProducts.length);
-  const containerH = offsets.reduce((max, o) => Math.max(max, o.top + 320), 600) + 80;
+  const containerH =
+    offsets.reduce((max, o) => Math.max(max, o.top + 320), 600) + 80;
 
   return (
     <motion.section
@@ -66,7 +76,12 @@ export default function ShopPage({
     >
       {/* DESKTOP */}
       <div
-        style={{ position: "relative", width: "100%", height: `${containerH}px`, paddingTop: "40px" }}
+        style={{
+          position: "relative",
+          width: "100%",
+          height: `${containerH}px`,
+          paddingTop: "40px",
+        }}
         className="hidden md:block"
       >
         {filteredProducts.map((p, idx) => {
@@ -126,21 +141,23 @@ export default function ShopPage({
                 <img
                   src={p.image}
                   alt={p.title}
-                  style={{ maxHeight: "100%", maxWidth: "100%", objectFit: "contain" }}
+                  style={{
+                    maxHeight: "100%",
+                    maxWidth: "100%",
+                    objectFit: "contain",
+                  }}
                   draggable={false}
                 />
                 {p.soldOut && (
                   <span
                     style={{ position: "absolute", top: 4, right: 4 }}
-                    className="font-mono text-[8px] font-bold text-white tracking-widest uppercase bg-[#] px-2 py-0.5 rounded-full"
-                  >
-                    
-                  </span>
+                    className="font-mono text-[8px] font-bold text-white tracking-widest uppercase bg-[#de463e] px-2 py-0.5 rounded-full"
+                  >SOLD OUT</span>
                 )}
               </motion.div>
 
               <p
-                className="mt-2 font-mono text-[9px] font-bold uppercase tracking-widest text-center text-slate-400"
+                className="mt-0. font-mono text-[13px] font-bold uppercase text-center text-slate-400"
                 style={{ maxWidth: "180px" }}
               >
                 {p.title}
@@ -189,14 +206,22 @@ export default function ShopPage({
             <motion.div
               className="w-full h-full flex items-center justify-center relative select-none"
               animate={{ y: [0, -5, 0, 5, 0] }}
-              transition={{ duration: 13 + (idx % 4) * 2, repeat: Infinity, ease: "easeInOut", delay: (idx % 3) * 0.6 }}
+              transition={{
+                duration: 13 + (idx % 4) * 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: (idx % 3) * 0.6,
+              }}
             >
-              <img src={p.image} alt={p.title} className="max-h-full max-w-full object-contain" draggable={false} />
+              <img
+                src={p.image}
+                alt={p.title}
+                className="max-h-full max-w-full object-contain"
+                draggable={false}
+              />
               {p.soldOut && (
                 <div className="absolute top-0 right-0">
-                  <span className="font-mono text-[8px] font-bold text-white tracking-widest uppercase bg-[#de463e] px-2 py-0.5 rounded-full">
-                  
-                  </span>
+                  <span className="font-mono text-[8px] font-bold text-white tracking-widest uppercase bg-[#de463e] px-2 py-0.5 rounded-full"></span>
                 </div>
               )}
             </motion.div>
@@ -208,14 +233,20 @@ export default function ShopPage({
       <AnimatePresence>
         {hoveredSoldOut && (
           <motion.div
-            style={{ position: "fixed", left: cursorPos.x + 15, top: cursorPos.y + 15, pointerEvents: "none", zIndex: 99999 }}
+            style={{
+              position: "fixed",
+              left: cursorPos.x + 15,
+              top: cursorPos.y + 15,
+              pointerEvents: "none",
+              zIndex: 99999,
+            }}
             initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.85 }}
             transition={{ duration: 0.12, ease: "easeOut" }}
             className="bg-white border border-slate-200 text-slate-800 font-mono text-[9.5px] font-bold tracking-widest px-3 py-1 shadow-md select-none pointer-events-none rounded-none whitespace-nowrap uppercase"
           >
-              SOLD OUT
+            SOLD OUT
           </motion.div>
         )}
       </AnimatePresence>

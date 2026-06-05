@@ -135,7 +135,7 @@ export default function CheckoutView({
   }
 
   return (
-    <div className="w-full min-h-screen text-white py-4 font-mono select-none">
+    <div className="w-full min-h-screen text-white py-4 font-mono select-none bg-[#0a0a0b]">
       
       {/* Back button */}
       <button

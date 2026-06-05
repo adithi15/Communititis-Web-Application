@@ -34,6 +34,7 @@ export default function Header({
   currencies,
   cartCount,
   toggleCart,
+  onLogoClick,
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showCurrencyDrop, setShowCurrencyDrop] = useState(false);
@@ -52,7 +53,7 @@ export default function Header({
   };
 
   return (
-    <header className="fixed top-4 left-4 right-4 md:top-8 md:left-8 md:right-8 z-50 pointer-events-none flex items-start justify-between">
+    <header className="fixed top-4 left-4 right-4 md:top-8 md:left-8 md:right-8 z-[400] pointer-events-none flex items-start justify-between">
       {/* Left Side: Expandable Pill with glass-card effect */}
       <div
         className="pointer-events-auto flex items-center h-12 md:h-14 rounded-full text-white overflow-hidden relative"
@@ -100,7 +101,7 @@ export default function Header({
         {/* Logo */}
       <button
   onClick={() => {
-    setCurrentTab("shop");
+    onLogoClick?.();
     setMenuOpen(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }}
