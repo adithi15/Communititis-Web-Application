@@ -146,28 +146,34 @@ export default function App() {
   };
 
   return (
-    <div className="relative min-h-screen text-slate-800 transition-colors duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] overflow-x-hidden font-sans">
-      {/* Dynamic Animated background mesh */}
+    <>
+      {/* Background layers sit OUTSIDE the overflow-x-hidden div.
+          iOS Safari & Android Chrome clip position:fixed children
+          when any ancestor has overflow:hidden — moving them here fixes it. */}
+
       <div
-        className={`fixed inset-0 -z-10 ${currentTab === "checkout" ? "" : "transition-all duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)]"}`}
+        className={`fixed inset-0 pointer-events-none ${currentTab === "checkout" ? "" : "transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]"}`}
         style={{
+          zIndex: -2,
           background:
             currentTab === "checkout"
               ? "#0a0a0b"
               : `radial-gradient(ellipse at 50% 30%, ${moodColor}, ${moodColor2})`,
         }}
       />
-
-      {/* Procedural Film Grain/Noise overlay */}
       <div
-        className="fixed inset-0 -z-10 pointer-events-none opacity-[0.25] mix-blend-overlay"
+        className="fixed inset-0 pointer-events-none opacity-[0.25] mix-blend-overlay"
         style={{
+          zIndex: -1,
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
         }}
       />
+      <div
+        className="fixed inset-0 pointer-events-none opacity-20 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:40px_40px]"
+        style={{ zIndex: -1 }}
+      />
 
-      {/* Grid overlay for texture */}
-      <div className="fixed inset-0 -z-10 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none opacity-20" />
+    <div className="relative min-h-screen text-slate-800 transition-colors duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] overflow-x-hidden font-sans" style={{ WebkitOverflowScrolling: "touch" }}>
 
       {/* Floating Header — hidden when cart is open */}
       {!cartOpen && (
@@ -190,7 +196,7 @@ export default function App() {
       )}
 
       {/* Main Container workspace spacing top header */}
-      <main className="pt-28 md:pt-40 pb-24 px-4 md:px-16 max-w-[1600px] mx-auto">
+      <main className="pt-24 sm:pt-28 md:pt-40 pb-24 px-3 sm:px-6 md:px-16 max-w-[1600px] mx-auto">
         <AnimatePresence mode="wait">
           {currentTab === "shop" && (
             <ShopPage
@@ -418,5 +424,6 @@ export default function App() {
         }}
       />
     </div>
+    </>
   );
 }

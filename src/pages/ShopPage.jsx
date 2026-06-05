@@ -148,16 +148,16 @@ export default function ShopPage({
                   }}
                   draggable={false}
                 />
-                {p.soldOut && (
+                {/* {p.soldOut && (
                   <span
                     style={{ position: "absolute", top: 4, right: 4 }}
-                    className="font-mono text-[8px] font-bold text-white tracking-widest uppercase bg-[#de463e] px-2 py-0.5 rounded-full"
-                  >SOLD OUT</span>
-                )}
+                    className="font-mono text-[8px] font-bold text-white tracking-widest uppercase bg-slate-900/70 backdrop-blur-sm px-2 py-1 rounded-full border border-white/10"
+                  > </span>
+                )} */}
               </motion.div>
 
               <p
-                className="mt-0. font-mono text-[13px] font-bold uppercase text-center text-slate-400"
+                className="mt-0.1 font-mono text-[15px] font-bold uppercase text-center text-slate-400"
                 style={{ maxWidth: "180px" }}
               >
                 {p.title}
@@ -192,7 +192,7 @@ export default function ShopPage({
       </div>
 
       {/* MOBILE */}
-      <div className="md:hidden grid grid-cols-2 gap-6 py-8 px-3">
+      <div className="md:hidden grid grid-cols-2 gap-x-4 gap-y-8 py-8 px-4">
         {filteredProducts.map((p, idx) => (
           <motion.div
             key={p.id}
@@ -201,30 +201,40 @@ export default function ShopPage({
               if (p.soldOut) setRestockProduct(p);
               else setSelectedProduct(p);
             }}
-            className="relative aspect-square flex items-center justify-center cursor-pointer"
+            className="relative flex flex-col items-center cursor-pointer"
           >
-            <motion.div
-              className="w-full h-full flex items-center justify-center relative select-none"
-              animate={{ y: [0, -5, 0, 5, 0] }}
-              transition={{
-                duration: 13 + (idx % 4) * 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: (idx % 3) * 0.6,
-              }}
-            >
-              <img
-                src={p.image}
-                alt={p.title}
-                className="max-h-full max-w-full object-contain"
-                draggable={false}
-              />
+            {/* Image area */}
+            <div className="relative w-full aspect-square flex items-center justify-center">
+              <motion.div
+                className="w-full h-full flex items-center justify-center relative select-none"
+                animate={{ y: [0, -5, 0, 5, 0] }}
+                transition={{
+                  duration: 13 + (idx % 4) * 2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: (idx % 3) * 0.6,
+                }}
+              >
+                <img
+                  src={p.image}
+                  alt={p.title}
+                  className="max-h-full max-w-full object-contain"
+                  draggable={false}
+                />
+              </motion.div>
+              {/* Subtle sold-out badge with actual text */}
               {p.soldOut && (
-                <div className="absolute top-0 right-0">
-                  <span className="font-mono text-[8px] font-bold text-white tracking-widest uppercase bg-[#de463e] px-2 py-0.5 rounded-full"></span>
+                <div className="absolute top-1 right-1">
+                  <span className="font-mono text-[7px] font-bold text-white tracking-widest uppercase bg-slate-900/80 backdrop-blur-sm px-2 py-0.5 rounded-full border border-white/10">
+                    SOLD OUT
+                  </span>
                 </div>
               )}
-            </motion.div>
+            </div>
+            {/* Product name */}
+            <p className="mt-2 font-mono text-[10px] font-bold uppercase text-center text-slate-500 leading-tight px-1 line-clamp-2">
+              {p.title}
+            </p>
           </motion.div>
         ))}
       </div>

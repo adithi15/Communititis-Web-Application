@@ -65,8 +65,8 @@
   display: none;
 }
 .no-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* Grid Floating Animations */
@@ -86,11 +86,19 @@
 }
 
 /* Base Styles */
+html {
+  background: transparent;
+}
+
 body {
   margin: 0;
   font-family: var(--font-sans);
   color: #1e293b;
   overflow-x: hidden;
+  background: transparent;
+  -webkit-overflow-scrolling: touch;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
 }
 
 /* Elegant Sold Out Line Strike-Through */

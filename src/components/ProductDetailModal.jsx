@@ -84,7 +84,6 @@ export default function ProductDetailModal({
           <div className="relative flex-1 flex items-center justify-center bg-transparent rounded-2xl overflow-hidden aspect-square group">
             {product.soldOut && (
               <div className="absolute top-4 left-4 font-mono text-xs tracking-widest bg-rose-600 text-white px-3 py-1.5 rounded-full uppercase z-10">
-                Sold Out
               </div>
             )}
 
