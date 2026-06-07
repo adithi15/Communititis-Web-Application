@@ -915,6 +915,7 @@ function CommunitiesLogo() {
         objectFit: "cover",
         objectPosition: "left center",
         mixBlendMode: "multiply",
+        transform: "translateY(10px)",
       }}
     />
   );
@@ -1063,9 +1064,9 @@ export default function Header({
       <div className="md:hidden pointer-events-auto flex flex-col items-start w-full">
         <div
           className="flex items-center h-12 rounded-full text-white overflow-hidden relative w-full"
-          style={glassPill}
+          // style={glassPill}
         >
-          <GlassShine />
+          {/* <GlassShine /> */}
 
           {/* Logo */}
           <a
@@ -1079,7 +1080,9 @@ export default function Header({
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
           >
-            <CommunitiesLogo />
+            <div className="translate-y-2">
+              <CommunitiesLogo />
+            </div>
           </a>
 
           <div className="flex-1" />
