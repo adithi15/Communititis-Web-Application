@@ -907,13 +907,13 @@ function GlassShine() {
 function CommunitiesLogo() {
   return (
     <img
-      src="/image/logo.png"
+      src="/image/logo1.png"
       alt="Communities"
       style={{
         height: "100px",
         width: "220px",
         objectFit: "cover",
-        objectPosition: "left center",
+        objectPosition: "center",
         mixBlendMode: "multiply",
         transform: "translateY(10px)",
       }}
@@ -978,7 +978,9 @@ export default function Header({
         {/* PILL 1: Logo */}
         <a
           href="/"
-          className="flex items-center justify-center h-25 px-0"
+          // className="flex items-center justify-center h-25 px-0"
+            className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center h-25 z-20"
+
           aria-label="Communities"
           onClick={(e) => {
             e.preventDefault();
