@@ -115,3 +115,34 @@ body {
   background-color: currentColor;
   opacity: 0.6;
 }
+
+
+/* Global High-Contrast Tactical Noise */
+.skylrk-grain-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none; /* Allows clicks to pass right through to buttons underneath */
+  z-index: 99999; /* Forces the grain on top of absolute modals, drawers, and images */
+  opacity: 0.045; /* Clean, intentional texture weight matching premium platforms */
+  background-repeat: repeat;
+  background-size: 140px 140px;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+/* Inject texture layout globally without editing any component script files */
+/* Target the root HTML container directly to force texture on top */
+html::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999999;
+  opacity: 0.35;
+  mix-blend-mode: overlay;
+  background-repeat: repeat;
+  background-size: 64px 64px;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAYvvnhAAAAMFBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAn0iJ3AAAAVHRSTlMAIGCgkICAgICAgICAwMDAwMDAwMDAwODg4ODg4ODg4PDw8PDw8PDw8Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4m0p3pQAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfmFwIWDgK8bZpUAAAAQ0lEQVRIx2NgwA0YGRgYmXgY8Ypws7PjFeHhY8cpwsvHjleEn48drwg/HwN+EX5+BvwiDIwM+EUYmBjwizAwMeEXYWBkwA0A99wAh96+v7kAAAAASUVORK5CYII=");
+}
